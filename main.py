@@ -34,12 +34,15 @@ def choice():
 
         while True:
 
+            print("\n\n__________________________________")
+
             decision = str(input("\nHIT or STAY\n"))
 
             if decision.lower() == 'hit':
                 add_card(i)
                 check(i)
                 show_hand(i)
+                
                 print(f"\nBank Total: {i.bank}")
                 print(f"Betted Amount: {i.bet}")
 
@@ -65,9 +68,41 @@ def ai():
             break                       
 
 def winner():
+    winner = None
     for i in players:
-        if check(dealer) == True and check()
-    # if check(dealer) == True and check(player) == True:
+        temp_winner = []
+        if len(players) == 1:
+            temp_winner.append(i)
+        else:
+            for j in players:
+                if i.bust != True:
+                    if total_sum(i) >= total_sum(j) and i != j or j.bust == True:
+                        temp_winner.append(i)
+                        winner = temp_winner
+        
+    # for i in winner:
+    #     if i.bust != True:
+    #         if winner == None and dealer.bust == True:
+    #             return "BUST"
+    #         elif total_sum(i) > total_sum(dealer):
+    #             return winner
+    #         elif total_sum(winner) == total_sum(dealer):
+    #             return "TIE"
+    if winner == [] and dealer.bust == True:
+        return "BUST"
+    elif winner == []:
+        return "BUST_P"
+    elif dealer.bust == True:
+        return winner
+    elif total_sum(winner[0]) > total_sum(dealer):
+        return winner
+    elif total_sum(winner[0]) == total_sum(dealer):
+        return "TIE"
+    else:
+        winner = [dealer]
+        return winner
+
+    # if check(dealer) == True and !check(player) == True:
     #     return "BUST"
     # else:
     #     if total_sum(dealer) == total_sum(player):
@@ -89,19 +124,23 @@ def winner():
     #         player.add_bank(bet_amount)
     #         return player
 
-def finish(user):
+def finish(winner):
     print("\n\n__________________________________")
-    if user == "TIE":
+    if winner == "TIE":
         print("\nIT IS A TIE")
-        show_hand(player)
-        show_hand(dealer)
-    elif user == "BUST":
-        print("\nBOTH HAS BUSTED")
-        show_hand(player)
-        show_hand(dealer)
+        for i in players:
+            show_hand(i)
+            print(f"Total: {total_sum(i)}")
+    elif winner == "BUST":
+        print("\nALL HAS BUSTED")
+        for i in players:
+            show_hand(i)
+            print(f"Total: {total_sum(i)}")
     else:
-        print(f"\n{user.name.upper()} HAS WON!!")
-        show_hand(user)
+        for i in winner:
+            print(f"\n{i.name.upper()} HAS WON!!")
+            show_hand(i)
+        
 
 def bet():
     while True:
@@ -128,22 +167,29 @@ def bet():
             continue
 
 def check_amount():
-    if player.bank <= 0:
-        print("\nYOU HAVE NO MORE DOSH!!")
-        print(f"\nBank Total: {player.bank}")
-        while True:
-            restart = input("\nRESTART?     (yes/no)\n")
-            if restart.lower() == 'yes':
-                player.bank = 1000
-                operating_system()
-                player.cards = []
-                dealer.cards = []
-                return "RESTART"
-            elif restart.lower() == 'no':
-                operating_system()
-                return "EXIT"
-            else:
-                print("Please choose either 'Yes' or 'No'")
+    pop = []
+    for i in players:
+        if i.bank <= 0:
+            print("\nYOU HAVE NO MORE DOSH!!")
+            print(f"\nBank Total: {i.bank}")
+            while True:
+                restart = input(f"\nWorld you like to restart {i.name}?     (yes/no)\n")
+                if restart.lower() == 'yes':
+                    i.bank = 1000
+                    operating_system()
+                    i.cards = []
+                    dealer.cards = []
+                    return "RESTART"
+                elif restart.lower() == 'no':
+                    pop.append(players.index(i))
+                    operating_system()
+                    break
+                else:
+                    print("Please choose either 'Yes' or 'No'")
+
+    pop.reverse()
+    for i in pop:
+        players.pop(i)
 
 def nth_player():
     while True:
@@ -178,9 +224,8 @@ def check(user):
     if 'A' in user.cards and total_sum(user) > 21:
         user.define_hand['A'] = 1
     if total_sum(user) > 21:
+        user.bust = True
         return True
-    else:
-        return False
 
 def total_sum(user):
     total = 0
@@ -217,11 +262,12 @@ def operating_system():
 class Player():
     import copy
     define_hand = copy.deepcopy(define)
-    def __init__(self, name, bank, bet, cards=[]):
+    def __init__(self, name, bank, bet, bust, cards):
         self.cards = cards
         self.name = name
         self.bank = bank
         self.bet = bet
+        self.bust = bust
 
     def lose_bank(self, bet):
         self.bank -= bet
@@ -232,16 +278,18 @@ class Player():
 class Dealer():
     import copy
     define_hand = copy.deepcopy(define)
-    def __init__(self, name="Dealer", cards=[]):
+    def __init__(self, name, bust, cards):
         self.cards = cards
         self.name = name
+        self.bust = bust
 
 def replay():
     while True:
         replay = input("\n\nContinue?     (Yes/No)\n")
         if replay.lower() == 'yes' or replay.lower() == 'y':
             operating_system()
-            player.cards = []
+            for i in players:
+                i.cards = []
             dealer.cards = []
             break
         elif replay.lower() == 'no' or replay.lower() == 'n':
@@ -259,8 +307,8 @@ players = []
 deck = cardgen()
 names(nth_player())
 for i in range(len(players)):
-    players[i] = Player(players[i], 1000, 0, [])
-dealer = Dealer("Dealer", [])
+    players[i] = Player(players[i], 1000, 0, False, [])
+dealer = Dealer("Dealer", False, [])
 
 while True:
     bet()
@@ -271,7 +319,5 @@ while True:
     again = check_amount()
     if again == "RESTART":
         continue
-    elif again == "EXIT":
-        break
     if replay():
         break
