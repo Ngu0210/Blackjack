@@ -68,61 +68,40 @@ def ai():
             break                       
 
 def winner():
-    winner = None
+    winner = []
+    loser = []
+    tie = []
     for i in players:
-        temp_winner = []
         if len(players) == 1:
-            temp_winner.append(i)
+            winner.append(i)
         else:
-            for j in players:
-                if i.bust != True:
-                    if total_sum(i) >= total_sum(j) and i != j or j.bust == True:
-                        temp_winner.append(i)
-                        winner = temp_winner
-        
-    # for i in winner:
-    #     if i.bust != True:
-    #         if winner == None and dealer.bust == True:
-    #             return "BUST"
-    #         elif total_sum(i) > total_sum(dealer):
-    #             return winner
-    #         elif total_sum(winner) == total_sum(dealer):
-    #             return "TIE"
-    if winner == [] and dealer.bust == True:
-        return "BUST"
-    elif winner == []:
-        return "BUST_P"
-    elif dealer.bust == True:
-        return winner
-    elif total_sum(winner[0]) > total_sum(dealer):
-        return winner
-    elif total_sum(winner[0]) == total_sum(dealer):
+            if i.bust != True:
+                if dealer.bust == True:
+                    winner.append(i)
+                elif dealer.bust != True:
+                    if total_sum(i) > total_sum(dealer):
+                        winner.append(i)
+                    elif total_sum(i) == total_sum(dealer):
+                        tie.append(i)
+                    else:
+                        loser.append(i)
+            else:
+                loser.append(i)
+    
+    if len(winner) == 0 and len(tie) > 0:
         return "TIE"
+                    
+    for i in winner:
+        i.add_bank()
+
+    for i in loser:
+        i.lose_bank()
+
+    if winner == []:
+        return "DEALER"
     else:
-        winner = [dealer]
         return winner
 
-    # if check(dealer) == True and !check(player) == True:
-    #     return "BUST"
-    # else:
-    #     if total_sum(dealer) == total_sum(player):
-    #         return "TIE"
-
-    #     elif total_sum(dealer) > 21:
-    #         player.add_bank(bet_amount)
-    #         return player
-            
-    #     elif total_sum(player) > 21:
-    #         player.lose_bank(bet_amount)
-    #         return dealer
-
-    #     elif total_sum(dealer) > total_sum(player):
-    #         player.lose_bank(bet_amount)
-    #         return dealer
-        
-    #     elif total_sum(player) > total_sum(dealer):
-    #         player.add_bank(bet_amount)
-    #         return player
 
 def finish(winner):
     print("\n\n__________________________________")
@@ -131,15 +110,23 @@ def finish(winner):
         for i in players:
             show_hand(i)
             print(f"Total: {total_sum(i)}")
+        show_hand(dealer)
     elif winner == "BUST":
         print("\nALL HAS BUSTED")
         for i in players:
             show_hand(i)
             print(f"Total: {total_sum(i)}")
+        show_hand(dealer)
+    elif winner == "DEALER":
+        for i in players:
+            show_hand(i)
+            print(f"Total: {total_sum(i)}")
+        show_hand(dealer)
     else:
         for i in winner:
             print(f"\n{i.name.upper()} HAS WON!!")
             show_hand(i)
+        show_hand(dealer)
         
 
 def bet():
@@ -170,10 +157,10 @@ def check_amount():
     pop = []
     for i in players:
         if i.bank <= 0:
-            print("\nYOU HAVE NO MORE DOSH!!")
+            print(f"\n{i.name.upper()} YOU HAVE NO MORE DOSH!!")
             print(f"\nBank Total: {i.bank}")
             while True:
-                restart = input(f"\nWorld you like to restart {i.name}?     (yes/no)\n")
+                restart = input("\nWorld you like to restart?     (yes/no)\n")
                 if restart.lower() == 'yes':
                     i.bank = 1000
                     operating_system()
@@ -190,6 +177,9 @@ def check_amount():
     pop.reverse()
     for i in pop:
         players.pop(i)
+
+    if len(players) == 0:
+        return "EXIT"
 
 def nth_player():
     while True:
@@ -259,6 +249,12 @@ def operating_system():
     else:
         os.system('clear')
 
+def reset():
+    for i in players:
+        i.bust = False
+        i.define_hand['A'] = 11
+    dealer.bust = False
+    dealer.define_hand['A'] = 11
 class Player():
     import copy
     define_hand = copy.deepcopy(define)
@@ -269,11 +265,11 @@ class Player():
         self.bet = bet
         self.bust = bust
 
-    def lose_bank(self, bet):
-        self.bank -= bet
+    def lose_bank(self):
+        self.bank -= self.bet
 
-    def add_bank(self, bet):
-        self.bank += bet
+    def add_bank(self):
+        self.bank += self.bet
 
 class Dealer():
     import copy
@@ -311,6 +307,7 @@ for i in range(len(players)):
 dealer = Dealer("Dealer", False, [])
 
 while True:
+    reset()
     bet()
     start()
     choice()
@@ -319,5 +316,7 @@ while True:
     again = check_amount()
     if again == "RESTART":
         continue
+    if again == "EXIT":
+        break
     if replay():
         break
