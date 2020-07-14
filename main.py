@@ -94,16 +94,15 @@ def winner():
         else:
             loser.append(i)
     
-    if len(winner) == 0 and len(tie) > 0:
-        return "TIE"
-                    
     for i in winner:
         i.add_bank()
 
     for i in loser:
         i.lose_bank()
 
-    if winner == []:
+    if len(winner) == 0 and len(tie) > 0:
+        return "TIE"
+    elif winner == []:
         return "DEALER"
     else:
         return winner
@@ -168,14 +167,14 @@ def check_amount():
             print(f"\nBank Total: {i.bank}")
             while True:
                 restart = input("\nWould you like to restart?     (yes/no)\n")
-                if restart.lower() == 'yes':
+                if restart.lower() == "yes" or restart.lower() == "y":
                     i.bank = 1000
                     operating_system()
                     i.cards = []
                     dealer.cards = []
                     restart = True
                     break
-                elif restart.lower() == 'no':
+                elif restart.lower() == "no" or restart.lower() == "n":
                     pop.append(players.index(i))
                     operating_system()
                     break
