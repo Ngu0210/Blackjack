@@ -72,21 +72,18 @@ def winner():
     loser = []
     tie = []
     for i in players:
-        if len(players) == 1:
-            winner.append(i)
-        else:
-            if i.bust != True:
-                if dealer.bust == True:
+        if i.bust != True:
+            if dealer.bust == True:
+                winner.append(i)
+            elif dealer.bust != True:
+                if total_sum(i) > total_sum(dealer):
                     winner.append(i)
-                elif dealer.bust != True:
-                    if total_sum(i) > total_sum(dealer):
-                        winner.append(i)
-                    elif total_sum(i) == total_sum(dealer):
-                        tie.append(i)
-                    else:
-                        loser.append(i)
-            else:
-                loser.append(i)
+                elif total_sum(i) == total_sum(dealer):
+                    tie.append(i)
+                else:
+                    loser.append(i)
+        else:
+            loser.append(i)
     
     if len(winner) == 0 and len(tie) > 0:
         return "TIE"
@@ -118,6 +115,7 @@ def finish(winner):
             print(f"Total: {total_sum(i)}")
         show_hand(dealer)
     elif winner == "DEALER":
+        print("DEALER WINS")
         for i in players:
             show_hand(i)
             print(f"Total: {total_sum(i)}")
@@ -160,7 +158,7 @@ def check_amount():
             print(f"\n{i.name.upper()} YOU HAVE NO MORE DOSH!!")
             print(f"\nBank Total: {i.bank}")
             while True:
-                restart = input("\nWorld you like to restart?     (yes/no)\n")
+                restart = input("\nWould you like to restart?     (yes/no)\n")
                 if restart.lower() == 'yes':
                     i.bank = 1000
                     operating_system()
@@ -186,11 +184,11 @@ def nth_player():
         try:
             nth = int(input("\nHow many players?\n(Only up to 4 players)\n"))
             if nth > 4 or nth < 1:
-                print("\nPlease enter an interger number between 1 - 4")
+                print("\nPlease enter an integer number between 1 - 4")
             else: 
                 break
         except:
-            print("\nPlease enter an interger number (E.G: 1 2 3 4)")
+            print("\nPlease enter an integer number (E.G: 1 2 3 4)")
     return nth
 
 def names(nth):
@@ -230,8 +228,9 @@ def show_hand(user):
 
 def start_hand(user):
     for i in range(2):
-        user.cards.append(deck[i])
-    del deck[:2]
+        user.cards.append(testdeck[i])
+    # del deck[:2]
+    del testdeck[:2]
         
 def add_card(user):
     user.cards.append(deck[0])
@@ -240,12 +239,8 @@ def add_card(user):
 
 def operating_system():
     op = platform.system()
-    if op == 'Darwin':
-        os.system('clear')
-    elif op == 'Windows':
+    if op == 'Windows':
         os.system('cls')
-    elif op == 'Linux':
-        os.system('clear')
     else:
         os.system('clear')
 
@@ -255,6 +250,7 @@ def reset():
         i.define_hand['A'] = 11
     dealer.bust = False
     dealer.define_hand['A'] = 11
+
 class Player():
     import copy
     define_hand = copy.deepcopy(define)
@@ -299,12 +295,14 @@ def replay():
 print("Welcome to Blackjack")
 print("\nThe goal of the game is to get as close to 21 as possible and have the total higher then the dealer!\n")
 
+testdeck = ['A','A','K','Q','J','10']*4
 players = []
 deck = cardgen()
 names(nth_player())
 for i in range(len(players)):
     players[i] = Player(players[i], 1000, 0, False, [])
 dealer = Dealer("Dealer", False, [])
+
 
 while True:
     reset()
