@@ -154,7 +154,7 @@ def bet():
                     break
             except:
                 print("\n__________________________________")
-                print("\nPlease enter an interger number (E.G: 0 1 2 3 50 ...)")
+                print("\nPlease enter an integer number (E.G: 0 1 2 3 50 ...)")
                 continue
 
 #If one of the players or multiple has ran out of money this function will run through telling the player that they've ran out of money. The player will have the option to restart to their default value or to quit the game. Making the quitted player to be remove from the game permanently.
@@ -179,7 +179,7 @@ def check_amount():
                     operating_system()
                     break
                 else:
-                    print("Please choose either 'Yes' or 'No'")
+                    print("Please choose either 'Yesgi' or 'No'")
     #This function is to remove the player that has chosen to leave
     pop.reverse()
     for i in pop:
@@ -319,7 +319,7 @@ def replay():
 # Game Start
 
 print("Welcome to Blackjack")
-print("\nThe goal of the game is to get as close to 21 as possible and have the total higher then the dealer!\n")
+print("\nThe goal of the game is to get as close to 21 as possible and have the total higher than the dealer!\n")
 players = []
 deck = cardgen()
 names(nth_player())
