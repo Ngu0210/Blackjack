@@ -166,7 +166,7 @@ def check_amount():
             print(f"\n{i.name.upper()} YOU HAVE NO MORE DOSH!!")
             print(f"\nBank Total: {i.bank}")
             while True:
-                restart = input("\nWould you like to restart?     (yes/no)\n")
+                restart = input("\nWould you like to restart your bank with the value of 1000?     (yes/no)\n")
                 if restart.lower() == "yes" or restart.lower() == "y":
                     i.bank = 1000
                     operating_system()
