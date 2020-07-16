@@ -359,7 +359,7 @@ class Dealer():
 
 print("Welcome to Blackjack")
 print("\nThe goal of the game is to get as close to 21 as possible and have the total higher than the dealer!\n")
-print("\n you can quit the game by writing down 'exit' ")
+print("\nYou can quit the game by writing down 'exit' ")
 players = []
 deck = cardgen()
 exit_now = Exit_Check(False)
@@ -370,17 +370,17 @@ dealer = Dealer("Dealer", False, [])
 
 
 while True:
-    if exit_now.exit == True: break
+    if exit_now.exit == True: operating_system(); break 
     reset()
     bet()
-    if exit_now.exit == True: break
+    if exit_now.exit == True: operating_system(); break 
     start()
     choice()
-    if exit_now.exit == True: break
+    if exit_now.exit == True: operating_system(); break 
     ai()
     finish(winner())
     again = check_amount()
-    if exit_now.exit == True: break
+    if exit_now.exit == True: operating_system(); break 
     if again == "RESTART":
         continue
     if again == "EXIT":
