@@ -320,6 +320,13 @@ class Player():
     def add_bank(self):
         self.bank += self.bet
 
+class Exit_Check():
+    def __init__(self, exit):
+        self.exit = exit
+
+    def exit_game(self):
+        self.exit = True
+
 #An object orienting class 'Dealer' once created will give the dealer its own unique values.
 class Dealer():
     import copy
