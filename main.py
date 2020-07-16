@@ -301,11 +301,6 @@ def replay():
         else:
             print("Please choose either 'Yes' or 'No'")
 
-#This function will exit the game if the player states so.
-def exit_check(value):
-    if exit == True:
-        return True
-
 #An object orienting class 'Player' once created will give each player their own unique values.
 class Player():
     import copy
@@ -341,7 +336,6 @@ print("\nThe goal of the game is to get as close to 21 as possible and have the 
 print("\n you can quit the game by writing down 'exit' ")
 players = []
 deck = cardgen()
-exit = False
 names(nth_player())
 for i in range(len(players)):
     players[i] = Player(players[i], 1000, 0, False, [])
@@ -350,7 +344,6 @@ dealer = Dealer("Dealer", False, [])
 
 while True:
     reset()
-    if exit_check(exit): break
     bet()
     start()
     choice()
