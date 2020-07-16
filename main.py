@@ -141,7 +141,11 @@ def bet():
             try:
                 print("\n__________________________________")
                 print(f"\nBank Total: {i.bank}")
-                amount = int(input(f"\nEnter your bet {i.name}\n"))
+                amount = input(f"\nEnter your bet {i.name}\n")
+                if amount.lower() == 'exit':
+                    exit_now.exit_game()
+                    return None
+                amount = int(amount)
                 if amount > i.bank:
                     print("This is over your bank budget!")   
                     print("please choose an appropriate amount corresponding to you bank amount")
@@ -214,6 +218,9 @@ def names(nth):
     while counter < nth:
         while True:
             name = input(f"\nPlease enter your name player {counter+1}...\n")
+            if name.lower() == 'exit':
+                exit_now.exit_game()
+                return None
             name = name.split()
             if len(name[0]) < 2 or len(name[0]) > 20:
                 print("\nPlease enter a name within the range of minimum 2 and maximum 20")
@@ -331,7 +338,6 @@ class Exit_Check():
 
     def exit_game(self):
         self.exit = True
-
 #An object orienting class 'Dealer' once created will give the dealer its own unique values.
 class Dealer():
     import copy
