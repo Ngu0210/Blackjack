@@ -208,16 +208,16 @@ def names(nth):
     counter = 0
     while counter < nth:
         while True:
-            name = input(f"\nPlease enter your name player {counter}...\n")
+            name = input(f"\nPlease enter your name player {counter+1}...\n")
             name = name.split()
             if len(name) == 1:
                 players.append(name[0])
                 counter += 1
                 break
             elif len(name) > 1:
-                print("Please enter 1 word for your name")
+                print("\nPlease enter 1 word for your name")
                 continue
-            elif len(name[0]) < 2 and len(name[0]) > 20:
+            elif len(name[0]) < 2 or len(name[0]) > 20:
                 print("Please enter a name within the range of minimum 2 and maximum 10")
                 continue
         
