@@ -338,12 +338,14 @@ class Player():
     def add_bank(self):
         self.bank += self.bet
 
+#Exit class purpose to check if the user wants to end the game
 class Exit_Check():
     def __init__(self, exit):
         self.exit = exit
 
     def exit_game(self):
         self.exit = True
+
 #An object orienting class 'Dealer' once created will give the dealer its own unique values.
 class Dealer():
     import copy
