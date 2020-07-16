@@ -179,7 +179,7 @@ def check_amount():
                     operating_system()
                     break
                 else:
-                    print("Please choose either 'Yesgi' or 'No'")
+                    print("Please choose either 'Yes' or 'No'")
     #This function is to remove the player that has chosen to leave
     pop.reverse()
     for i in pop:
@@ -208,8 +208,14 @@ def names(nth):
     counter = 0
     while counter < nth:
         name = input("\nPlease enter your name...\n")
-        players.append(name)
-        counter += 1
+        name = name.split()
+        while True:
+            if len(name) == 1:
+                players.append(name[0])
+                counter += 1
+            elif len(name) > 1:
+                print("Please enter 1 word for your name")
+        
          
 #The cardgen function will generate a deck of 52 cards and then it will shuffle it, creating randomness to the game
 def cardgen():
@@ -272,6 +278,22 @@ def reset():
     dealer.bust = False
     dealer.define_hand['A'] = 11
 
+#At the end of the hand the players have the choice to exit the game or to continue the game.
+def replay():
+    while True:
+        replay = input("\n\nWould you like to continue with the game?     (Yes/No)\n")
+        if replay.lower() == 'yes' or replay.lower() == 'y':
+            operating_system()
+            for i in players:
+                i.cards = []
+            dealer.cards = []
+            break
+        elif replay.lower() == 'no' or replay.lower() == 'n':
+            operating_system()
+            return True
+        else:
+            print("Please choose either 'Yes' or 'No'")
+
 #An object orienting class 'Player' once created will give each player their own unique values.
 class Player():
     import copy
@@ -299,22 +321,6 @@ class Dealer():
         self.cards = cards
         self.name = name
         self.bust = bust
-
-#At the end of the hand the players have the choice to exit the game or to continue the game.
-def replay():
-    while True:
-        replay = input("\n\nContinue?     (Yes/No)\n")
-        if replay.lower() == 'yes' or replay.lower() == 'y':
-            operating_system()
-            for i in players:
-                i.cards = []
-            dealer.cards = []
-            break
-        elif replay.lower() == 'no' or replay.lower() == 'n':
-            operating_system()
-            return True
-        else:
-            print("Please choose either 'Yes' or 'No'")
 
 # Game Start
 
