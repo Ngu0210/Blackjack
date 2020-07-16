@@ -220,6 +220,8 @@ def names(nth):
             elif len(name) > 1:
                 print("\nPlease enter 1 word for your name")
                 continue
+            elif name[0].lower() == 'exit':
+                exit = True
         
          
 #The cardgen function will generate a deck of 52 cards and then it will shuffle it, creating randomness to the game
@@ -299,8 +301,8 @@ def replay():
         else:
             print("Please choose either 'Yes' or 'No'")
 
-
-def exit():
+#This function will exit the game if the player states so.
+def exit_check(value):
     if exit == True:
         return True
 
@@ -336,6 +338,7 @@ class Dealer():
 
 print("Welcome to Blackjack")
 print("\nThe goal of the game is to get as close to 21 as possible and have the total higher than the dealer!\n")
+print("\n you can quit the game by writing down 'exit' ")
 players = []
 deck = cardgen()
 exit = False
@@ -347,6 +350,7 @@ dealer = Dealer("Dealer", False, [])
 
 while True:
     reset()
+    if exit_check(exit): break
     bet()
     start()
     choice()
