@@ -207,14 +207,19 @@ def nth_player():
 def names(nth):
     counter = 0
     while counter < nth:
-        name = input("\nPlease enter your name...\n")
-        name = name.split()
         while True:
+            name = input(f"\nPlease enter your name player {counter}...\n")
+            name = name.split()
             if len(name) == 1:
                 players.append(name[0])
                 counter += 1
+                break
             elif len(name) > 1:
                 print("Please enter 1 word for your name")
+                continue
+            elif len(name[0]) < 2 and len(name[0]) > 20:
+                print("Please enter a name within the range of minimum 2 and maximum 10")
+                continue
         
          
 #The cardgen function will generate a deck of 52 cards and then it will shuffle it, creating randomness to the game
