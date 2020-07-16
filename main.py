@@ -43,6 +43,9 @@ def choice():
             print("\n\n__________________________________")
 
             decision = str(input("\nHIT or STAY\n"))
+            if decision.lower() == 'exit':
+                exit_now.exit_game()
+                return None
 
             if decision.lower() == 'hit':
                 add_card(i)
@@ -171,6 +174,9 @@ def check_amount():
             print(f"\nBank Total: {i.bank}")
             while True:
                 restart = input("\nWould you like to restart your bank with the value of 1000?     (yes/no)\n")
+                if restart.lower() == 'exit':
+                    exit_now.exit_game()
+                    return None
                 if restart.lower() == "yes" or restart.lower() == "y":
                     i.bank = 1000
                     operating_system()
@@ -372,6 +378,7 @@ while True:
     ai()
     finish(winner())
     again = check_amount()
+    if exit_now.exit == True: break
     if again == "RESTART":
         continue
     if again == "EXIT":
