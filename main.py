@@ -299,6 +299,11 @@ def replay():
         else:
             print("Please choose either 'Yes' or 'No'")
 
+
+def exit():
+    if exit == True:
+        return True
+
 #An object orienting class 'Player' once created will give each player their own unique values.
 class Player():
     import copy
@@ -333,6 +338,7 @@ print("Welcome to Blackjack")
 print("\nThe goal of the game is to get as close to 21 as possible and have the total higher than the dealer!\n")
 players = []
 deck = cardgen()
+exit = False
 names(nth_player())
 for i in range(len(players)):
     players[i] = Player(players[i], 1000, 0, False, [])
