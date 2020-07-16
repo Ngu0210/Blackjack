@@ -209,6 +209,8 @@ def nth_player():
 #This function deals with naming between each players/player
 def names(nth):
     counter = 0
+    if nth == None:
+        return None
     while counter < nth:
         while True:
             name = input(f"\nPlease enter your name player {counter+1}...\n")
@@ -354,10 +356,13 @@ dealer = Dealer("Dealer", False, [])
 
 
 while True:
+    if exit_now.exit == True: break
     reset()
     bet()
+    if exit_now.exit == True: break
     start()
     choice()
+    if exit_now.exit == True: break
     ai()
     finish(winner())
     again = check_amount()
