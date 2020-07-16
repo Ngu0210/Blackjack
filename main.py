@@ -194,7 +194,10 @@ def check_amount():
 def nth_player():
     while True:
         try:
-            nth = int(input("\nHow many players?\n(Only up to 4 players)\n"))
+            nth = input("\nHow many players?\n(Only up to 4 players)\n")
+            if nth.lower() == 'exit':
+                return exit_now.exit_game()
+            nth = int(nth)
             if nth > 4 or nth < 1:
                 print("\nPlease enter an integer number between 1 - 4")
             else: 
@@ -343,6 +346,7 @@ print("\nThe goal of the game is to get as close to 21 as possible and have the 
 print("\n you can quit the game by writing down 'exit' ")
 players = []
 deck = cardgen()
+exit_now = Exit_Check(False)
 names(nth_player())
 for i in range(len(players)):
     players[i] = Player(players[i], 1000, 0, False, [])
