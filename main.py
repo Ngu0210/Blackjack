@@ -223,23 +223,26 @@ def names(nth):
         return None
     while counter < nth:
         while True:
-            name = input(f"\nPlease enter your name player {counter+1}...\n")
-            if name.lower() == 'exit':
-                exit_now.exit_game()
-                return None
-            name = name.split()
-            if len(name[0]) < 2 or len(name[0]) > 20:
-                print("\nPlease enter a name within the range of minimum 2 and maximum 20")
-                continue
-            elif len(name) == 1:
-                players.append(name[0])
-                counter += 1
-                break
-            elif len(name) > 1:
-                print("\nPlease enter 1 word for your name")
-                continue
-            elif name[0].lower() == 'exit':
-                exit = True
+            try: 
+                name = input(f"\nPlease enter your name player {counter+1}...   (Minimum of 2 characters, Maximum of 20 characters\n")
+                if name.lower() == 'exit':
+                    exit_now.exit_game()
+                    return None
+                name = name.split()
+                if len(name[0]) < 2 or len(name[0]) > 20:
+                    print("\nPlease enter a name within the range of minimum 2 and maximum 20")
+                    continue
+                elif len(name) == 1:
+                    players.append(name[0])
+                    counter += 1
+                    break
+                elif len(name) > 1:
+                    print("\nPlease enter 1 word for your name")
+                    continue
+                elif name[0].lower() == 'exit':
+                    exit = True
+            except:
+                print("please enter only one word")
         
          
 #The cardgen function will generate a deck of 52 cards and then it will shuffle it, creating randomness to the game
