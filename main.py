@@ -1,3 +1,6 @@
+#!/usr/sbin/python
+import sys
+
 #These imports are for the clear terminal feature (for tidying up the terminal)
 
 import platform
