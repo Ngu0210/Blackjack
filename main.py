@@ -1,6 +1,6 @@
 #!/usr/sbin/python
 import sys
-
+import copy
 #These imports are for the clear terminal feature (for tidying up the terminal)
 
 import platform
@@ -11,7 +11,6 @@ define = {'1':1, '2':2, '3':3, '4':4, '5':5, '6':6, '7':7, '8':8, '9':9, '10':10
 
 #The introduction of the hand where each player and dealer is given two card each, shows total sum of each player (excluding dealer), shows bank amount and betted amount.
 def start():
-    import copy
 
     print("\n\n__________________________________")
     print("\nGame has begun...")   
